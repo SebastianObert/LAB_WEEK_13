@@ -44,7 +44,10 @@ dependencies {
     implementation(libs.converter.moshi)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
-    kapt(libs.moshi.kotlin.codegen)
+
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.15.2")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.2")
+
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
