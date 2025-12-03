@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.work.runtime.ktx)
 
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.15.2")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.2")
