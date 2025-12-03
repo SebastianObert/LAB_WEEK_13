@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.test_lab_week_13.model.Movie
 
 class MovieAdapter(private val clickListener: MovieClickListener) :
-    ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieDiffCallback) {
+    androidx.recyclerview.widget.ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val view =

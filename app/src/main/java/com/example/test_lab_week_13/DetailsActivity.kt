@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 
-class DetailsActivity : AppCompatActivity() {
+class DetailsActivity : androidx.appcompat.app.AppCompatActivity() {
 
     companion object {
         const val EXTRA_TITLE = "title"

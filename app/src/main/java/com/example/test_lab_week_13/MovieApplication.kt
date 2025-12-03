@@ -5,7 +5,7 @@ import com.example.test_lab_week_13.api.MovieService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class MovieApplication : Application() {
+class MovieApplication : android.app.Application() {
     lateinit var movieRepository: MovieRepository
 
     override fun onCreate() {
