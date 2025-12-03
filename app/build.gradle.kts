@@ -47,6 +47,9 @@ dependencies {
     implementation(libs.converter.moshi)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.15.2")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.2")
