@@ -1,4 +1,4 @@
-package com.example.test_lab_week_12
+package com.example.test_lab_week_13
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.test_lab_week_12.model.Movie
+import com.example.test_lab_week_13.model.Movie
 
 class MovieAdapter(private val clickListener: MovieClickListener) :
     ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieDiffCallback) {
