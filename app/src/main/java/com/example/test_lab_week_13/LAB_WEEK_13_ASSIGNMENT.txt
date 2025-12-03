@@ -1,0 +1,28 @@
+1. Mengapa MVVM penting? File mana yang mewakili Model, file mana yang mewakili 
+Tampilan, dan file mana yang mewakili ViewModel?
+
+MVVM (Model-View-ViewModel) penting karena memisahkan antara logika bisnis, data, dan antarmuka pengguna (UI). Pemisahan ini membuat kode lebih terstruktur, mudah diuji (testable), dan lebih mudah untuk dikelola atau dikembangkan di masa mendatang. ViewModel juga membantu mempertahankan keadaan UI saat terjadi perubahan konfigurasi, seperti rotasi layar, sehingga data tidak hilang.
+
+- Model: Diwakili oleh `Movie.kt` (struktur data), `MovieDatabase.kt`, `MovieDao.kt` (sumber data lokal), `MovieService.kt` (sumber data jaringan), dan `MovieRepository.kt` (sebagai penengah sumber data).
+- Tampilan (View): Diwakili oleh `MainActivity.kt`, `DetailsActivity.kt`, file layout XML mereka (`activity_main.xml`, `activity_details.xml`), dan `MovieAdapter.kt` yang mengatur bagaimana data ditampilkan.
+- ViewModel: Diwakili oleh `MovieViewModel.kt`, yang bertugas menyediakan data untuk Tampilan dan menangani logika terkait UI.
+
+2. Di Bagian 1, Anda mengimplementasikan Data Binding, mengapa ini lebih efisien daripada menggunakan metode normal?
+
+Data Binding lebih efisien daripada metode normal seperti `findViewById()` karena menghilangkan kebutuhan untuk mencari setiap komponen UI secara manual di dalam kode. Data Binding membuat kelas pengikat (binding class) pada saat kompilasi, yang berisi referensi langsung ke setiap View. Ini mengurangi pekerjaan pada saat runtime. Selain itu, Data Binding memungkinkan kita untuk mengikat data dari ViewModel langsung ke layout XML, yang secara otomatis memperbarui UI ketika data berubah. Hal ini mengurangi jumlah kode boilerplate di Activity atau Fragment.
+
+3. Di Bagian 2, Anda mengimplementasikan Pola Singleton, mengapa ini penting?
+
+Pola Singleton penting, terutama untuk objek yang mahal untuk dibuat seperti instance database. Dengan Singleton, kita memastikan bahwa hanya ada satu instance dari `MovieDatabase` yang dibuat dan digunakan di seluruh aplikasi. Ini mencegah kebocoran memori dan masalah performa karena kita tidak perlu membuat koneksi database baru setiap kali kita membutuhkannya. Hal ini juga menghindari masalah data yang tidak konsisten yang bisa terjadi jika ada beberapa instance database yang aktif secara bersamaan.
+
+4. Di Bagian 2 & 3, Anda mengimplementasikan Pola Repositori, mengapa ini penting?
+
+Pola Repositori (Repository Pattern) penting karena berfungsi sebagai lapisan abstraksi antara sumber data (baik lokal maupun jaringan) dengan seluruh aplikasi (terutama ViewModel). Repositori menyediakan satu sumber kebenaran (single source of truth) untuk data. Dalam proyek ini, `MovieRepository` menyembunyikan logika tentang apakah data harus diambil dari cache database Room atau dari API. Ini membuat kode lebih bersih, lebih mudah diuji, dan memungkinkan kita untuk mengubah sumber data di masa depan tanpa harus mengubah kode di ViewModel atau Tampilan.
+
+5. Di bagian 3, Anda mengimplementasikan Worker Manager, adakah cara lain untuk menyegarkan database Anda dengan data terbaru selain menggunakan Worker?
+
+Ya, ada cara lain, meskipun WorkManager adalah cara yang direkomendasikan oleh Google untuk tugas latar belakang yang dapat ditunda. Beberapa alternatifnya antara lain:
+
+- AlarmManager: Kita bisa menjadwalkan alarm berulang untuk memicu sebuah Service atau BroadcastReceiver yang kemudian akan mengambil data dari jaringan. Namun, ini kurang efisien dalam hal penggunaan baterai dibandingkan WorkManager dan lebih rumit untuk dikelola pada versi Android modern.
+- SyncAdapter: Ini adalah framework yang dirancang khusus untuk sinkronisasi data, tetapi implementasinya sangat kompleks dan biasanya berlebihan untuk kasus penggunaan sederhana seperti ini.
+- Service dengan Thread atau Coroutine: Kita bisa menjalankan Service di latar belakang yang secara berkala menjalankan tugas. Namun, metode ini tidak dijamin akan terus berjalan karena sistem Android dapat menghentikan service untuk menghemat baterai.
