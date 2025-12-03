@@ -1,17 +1,38 @@
 package com.example.test_lab_week_13
 
 import com.example.test_lab_week_13.api.MovieService
+import com.example.test_lab_week_13.database.MovieDao
+import com.example.test_lab_week_13.database.MovieDatabase
 import com.example.test_lab_week_13.model.Movie
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
-class MovieRepository(private val movieService: MovieService) {
+class MovieRepository(
+    private val movieService: MovieService,
+    private val movieDatabase: MovieDatabase
+) {
     private val apiKey = "7c3f9513fa6db43815ebb38fb8b36e3e"
 
-    // Fungsi fetchMovies sekarang mengembalikan Flow
-    // Panggilan jaringan terjadi saat flow ini di-collect
-    fun fetchMovies(): Flow<List<Movie>> = flow {
-        val popularMovies = movieService.getPopularMovies(apiKey)
-        emit(popularMovies.results)
+    fun fetchMovies(): Flow<List<Movie>> {
+        return flow {
+            // Check if there are movies saved in the database
+            val movieDao: MovieDao = movieDatabase.movieDao()
+            val savedMovies = movieDao.getMovies()
+            // If there are no movies saved in the database,
+            // fetch the list of popular movies from the API
+            if (savedMovies.isEmpty()) {
+                val movies = movieService.getPopularMovies(apiKey).results
+                // save the list of popular movies to the database
+                movieDao.addMovies(movies)
+                // emit the list of popular movies from the API
+                emit(movies)
+            } else {
+                // If there are movies saved in the database,
+                // emit the list of saved movies from the database
+                emit(savedMovies)
+            }
+        }.flowOn(Dispatchers.IO)
     }
 }
